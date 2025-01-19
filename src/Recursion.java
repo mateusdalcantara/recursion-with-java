@@ -184,9 +184,27 @@ public class Recursion {
          * */
     }
 
+    /**
+     * Recursion to check if the word is a palindrome
+     */
+    public static boolean isPalindrome(String input) {
+        // Define the base-case / stopping condition
+        if (input.length() == ZERO || input.length() == ONE) {
+            return true;
+        }
+
+        // Do some work to shrink the problem space
+        if (input.charAt(ZERO) == input.charAt(input.length() - ONE)) {
+            return isPalindrome(input.substring(ONE, input.length() - ONE));
+        }
+        // Additional base-case to handle non-palindromes
+        return false;
+    }
+
     public static void main(String[] args) {
         MemoizationExample example = new MemoizationExample();
         Recursion stringReverse = new Recursion();
+        Recursion isPalidrome = new Recursion();
 
         // Declaração da variável para armazenar a entrada do usuário
         int userInput;
@@ -221,6 +239,30 @@ public class Recursion {
             System.out.println("String invertida: " + reversedString);
         } else {
             System.out.println("Entrada inválida...");
+        }
+
+
+        String wordToCheck1 = "racecar";
+        boolean palidromeResult1 = isPalindrome(wordToCheck1);
+        String wordToCheck2 = "ovo";
+        boolean palidromeResult2 = isPalindrome(wordToCheck2);
+        String wordToCheck3 = "car";
+        boolean palidromeResult3 = isPalindrome(wordToCheck3);
+
+        if (palidromeResult1) {
+            System.out.println(wordToCheck1 + " it is a palindrome.");
+        } else {
+            System.out.println(wordToCheck1 + " is not a palindrome");
+        }
+        if (palidromeResult2) {
+            System.out.println(wordToCheck2 + " it is a palindrome.");
+        } else {
+            System.out.println(wordToCheck2 + " is not a palindrome");
+        }
+        if (palidromeResult3) {
+            System.out.println(wordToCheck2 + " it is a palindrome.");
+        } else {
+            System.out.println(wordToCheck2 + " is not a palindrome");
         }
 
     }
