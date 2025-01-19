@@ -9,15 +9,15 @@ public class Recursion {
      * <p>
      * O que é recursão?
      * <p>
-     * É uma função que chama ela mesmo, que tem um base case(regra 1) e uma invocação
+     * É uma função que chama ela mesmo, tem uma base case(regra 1) e uma invocação
      * dela mesma (regra 2 e 3).
      * <p>
      * public void recurcao(int algumValor){
-     * if (algum valor == 10){ //Base case (regra 1)
-     * return;
-     * }
-     * return recurcao(algumValor + 1) //Recursive Call (regra 2 e 3)
-     * }
+     *    if (algum valor == 10){ //Base case (regra 1)
+     *      return;
+     *     }
+     *      return recurcao(algumValor + 1) //Recursive Call (regra 2 e 3)
+     *  }
      * <p>
      * O objetivo da recursão é pegar um problema e quebrar ele em pequenos pedaços e cada
      * pedaço se tornar ainda menor para cada laço da recursão.
@@ -33,7 +33,7 @@ public class Recursion {
      * (non-tail recursion) está no ponto onde a chamada recursiva é feita e como
      * a pilha de chamadas (stack) é utilizada durante a execução do programa.
      * <p>
-     * Na recursão sem cauda {@code factorialWithoutTail}, a última operação realizada
+     * Na recursão sem cauda, a última operação realizada
      * na função não é a chamada recursiva, ou seja, a função precisa fazer algo com o
      * resultado da chamada recursiva após a execução dessa chamada. Ou seja, ela vem primeiro!
      * <p>
@@ -62,13 +62,18 @@ public class Recursion {
 
     public static final int ONE = 1;
     public static final int ZERO = 0;
+    public static final int TWO = 2;
 
     /**
      * Factorial recursion without tail
+     *
+     * Por que? Após a chamada recursiva, a função precisa faz algo com
+     * o valor retornado da recursão (multiplicar o acumulador por input). A chamada recursiva
+     * não é a última operação a ser realizada, portanto, é uma recursão sem cauda.
      */
     static void factorialWithoutTail(double input, double acumulator) {
         if (input == ONE || input == ZERO) {  // Base case
-            System.out.println("The factorial without tail is: " + acumulator);
+            System.out.println("The factorial without tail is: [" + acumulator + "]");
             return;  // Encerra a recursão
         }
 
@@ -90,6 +95,7 @@ public class Recursion {
 
     /**
      * Way to optimize the Recursion.
+     * This recursion is without tail.
      */
     public static class MemoizationExample {
 
@@ -102,7 +108,7 @@ public class Recursion {
          * especialmente em algoritmos que têm uma grande sobreposição de subproblemas,
          * como em problemas de programação dinâmica.
          * <p>
-         * Como funciona a Memoização?
+         * Como funciona a Memoization?
          * <p>
          * Armazenamento de Resultados:
          * Quando uma função é chamada com determinados parâmetros,
@@ -151,7 +157,8 @@ public class Recursion {
     }
 
     /**
-     * Recursion with String
+     * Recursion with String.
+     * This recursion is without tail.
      */
     public String reverseString(String input) {
         //what is the base case? One letter or Empty String.
@@ -185,7 +192,8 @@ public class Recursion {
     }
 
     /**
-     * Recursion to check if the word is a palindrome
+     * Recursion to check if the word is a palindrome.
+     * This recursion is without tail.
      */
     public static boolean isPalindrome(String input) {
         // Define the base-case / stopping condition
@@ -199,6 +207,72 @@ public class Recursion {
         }
         // Additional base-case to handle non-palindromes
         return false;
+
+        /*
+        the way for this recursion works:
+
+        |     | = is equal
+        racecar
+
+        |   | = is equal
+        aceca
+
+        | | = is equal
+        cec
+
+         e = end of check
+
+         e = it's a palidrome, start recursion.
+         cec = is true, pop off the stack.
+         aceca = is true, pop off the stack.
+         racecar = is true, pop off the stack.
+
+         */
+    }
+
+    /**
+     * This recursion turns the decimal to binary.
+     * This recursion is without tail.
+     */
+    public static String findBinary(int decimalInput, String decimalChangedToBinary) {
+        if (decimalInput == ZERO) {
+            return decimalChangedToBinary;
+        }
+        decimalChangedToBinary = decimalInput % TWO + decimalChangedToBinary;
+        return findBinary(decimalInput / TWO, decimalChangedToBinary);
+
+        /*
+         * Start:
+         * 233 // 2 = 116  rem = 1
+         * 116 // 2 = 58   rem = 0
+         * 58 // 2 = 29    rem = 0
+         * 29 // 2 = 14    rem = 1
+         * 14 // 2 = 7     rem = 0
+         * 7 // 2 = 3      rem = 1
+         * 3 // 2 = 1      rem = 1
+         * 1 // 2 = 0      rem = 1
+         * End---------------------
+         *
+         * The decimal 233 in binary is 11101001.
+         *  */
+    }
+
+    /** Recursion with sum of natural numbers
+     * To change this recursion without tail to with tail just erase the comments /* */
+    public static int recursiveSummation(int inputNumber/*, int accumulator*/){
+        if (inputNumber <= ONE){
+            return /*accumulator + */inputNumber;
+            // Retorna o acumulador + o valor do inputNumber no caso base
+        }
+
+        // Recursão com cauda: a soma é feita no acumulador, e não após a chamada recursiva
+        //return recursiveSummationWithTail(inputNumber - ONE, accumulator + inputNumber);
+
+        //Chamada da recursão sem cauda
+        return inputNumber + recursiveSummation(inputNumber - ONE);
+
+        // 5 + 4 + 3 + 2 + 1 = 15
+        // 10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 55
     }
 
     public static void main(String[] args) {
@@ -206,6 +280,8 @@ public class Recursion {
         Recursion stringReverse = new Recursion();
         Recursion isPalidrome = new Recursion();
 
+        System.out.println();
+        System.out.println("==== Recursion with and without tail example ====");
         // Declaração da variável para armazenar a entrada do usuário
         int userInput;
 
@@ -224,46 +300,64 @@ public class Recursion {
         // Chama a função recursiva com cauda para calcular o fatorial e armazena o resultado
         long result = factorialWithTail(userInput, ONE);
 
-        // Imprime o resultado do fatorial calculado pela função com cauda
-        System.out.println("The factorial with tail of " + userInput + " is: " + result);
 
+        // Imprime o resultado do fatorial calculado pela função com cauda
+        System.out.println("The factorial with tail of [" + userInput + "] is: [" + result + "]");
+
+        System.out.println();
+        System.out.println("==== Memoization example ====");
         // imprime a memoization
         System.out.println(example.C());  // friends
         System.out.println(example.B());  // my friends
         System.out.println(example.A());  // hello my friends
 
+        System.out.println();
+        System.out.println("==== Recursion reverseString ====");
         String userStringInput = JOptionPane.showInputDialog("Digite uma string para inverter");
         if (userStringInput != null && !userStringInput.trim().isEmpty()) {
             String reversedString = stringReverse.reverseString(userStringInput);
-            System.out.println("String original: " + userStringInput);
-            System.out.println("String invertida: " + reversedString);
+            System.out.println("String original: [" + userStringInput + "]");
+            System.out.println("String invertida: [" + reversedString + "]");
         } else {
             System.out.println("Entrada inválida...");
         }
 
-
+        System.out.println();
+        System.out.println("==== Recursion is palindrome? ====");
         String wordToCheck1 = "racecar";
-        boolean palidromeResult1 = isPalindrome(wordToCheck1);
+        boolean palindromeResult1 = isPalindrome(wordToCheck1);
         String wordToCheck2 = "ovo";
-        boolean palidromeResult2 = isPalindrome(wordToCheck2);
+        boolean palindromeResult2 = isPalindrome(wordToCheck2);
         String wordToCheck3 = "car";
-        boolean palidromeResult3 = isPalindrome(wordToCheck3);
+        boolean palindromeResult3 = isPalindrome(wordToCheck3);
 
-        if (palidromeResult1) {
-            System.out.println(wordToCheck1 + " it is a palindrome.");
+        if (palindromeResult1) {
+            System.out.println("[" + wordToCheck1 + "]" + " it is a palindrome.");
         } else {
-            System.out.println(wordToCheck1 + " is not a palindrome");
+            System.out.println("[" + wordToCheck1 + "]" + " is not a palindrome");
         }
-        if (palidromeResult2) {
-            System.out.println(wordToCheck2 + " it is a palindrome.");
+        if (palindromeResult2) {
+            System.out.println("[" + wordToCheck2 + "]" + " it is a palindrome.");
         } else {
-            System.out.println(wordToCheck2 + " is not a palindrome");
+            System.out.println("[" + wordToCheck2 + "]" + " is not a palindrome");
         }
-        if (palidromeResult3) {
-            System.out.println(wordToCheck2 + " it is a palindrome.");
+        if (palindromeResult3) {
+            System.out.println("[" + wordToCheck3 + "] it is a palindrome.");
         } else {
-            System.out.println(wordToCheck2 + " is not a palindrome");
+            System.out.println("[" + wordToCheck3 + "] is not a palindrome");
         }
+
+        System.out.println();
+        System.out.println("==== Recursion decimal to binary ====");
+        String decimalToBinary = findBinary(233, "");
+        System.out.println("Your decimal number becomes a binary: [" + decimalToBinary+"]");
+
+        System.out.println();
+        System.out.println("==== Recursion with sum ====");
+        int somaComRecurcao1 = recursiveSummation(5); // 15
+        int somaComRecurcao2 = recursiveSummation(10); // 55
+        System.out.println("Your sum with recursion is: [" + somaComRecurcao1+"]");
+        System.out.println("Your sum with recursion is: [" + somaComRecurcao2+"]");
 
     }
 }
