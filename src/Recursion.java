@@ -5,7 +5,7 @@ import java.util.Map;
 public class Recursion {
 
     /**
-     * Attention! it's a notations. I does it with the intuition to self notes.
+     * Attention! it's a notations. I does it with the intention to self notes, not for documentation.
      * <p>
      * O que é recursão?
      * <p>
@@ -13,10 +13,10 @@ public class Recursion {
      * dela mesma (regra 2 e 3).
      * <p>
      * public void recurcao(int algumValor){
-     *      if (algum valor == 10){ //Base case (regra 1)
-     *          return;
-     *      }
-     *    return recurcao(algumValor + 1) //Recursive Call (regra 2 e 3)
+     * if (algum valor == 10){ //Base case (regra 1)
+     * return;
+     * }
+     * return recurcao(algumValor + 1) //Recursive Call (regra 2 e 3)
      * }
      * <p>
      * O objetivo da recursão é pegar um problema e quebrar ele em pequenos pedaços e cada
@@ -88,7 +88,9 @@ public class Recursion {
         return factorialWithTail(input - ONE, acumulator * input);
     }
 
-    /** Way to optimize the Recursion. */
+    /**
+     * Way to optimize the Recursion.
+     */
     public static class MemoizationExample {
 
         /**
@@ -99,20 +101,20 @@ public class Recursion {
          * resultados de funções, o que pode melhorar significativamente o desempenho,
          * especialmente em algoritmos que têm uma grande sobreposição de subproblemas,
          * como em problemas de programação dinâmica.
-         *
+         * <p>
          * Como funciona a Memoização?
-         *
+         * <p>
          * Armazenamento de Resultados:
          * Quando uma função é chamada com determinados parâmetros,
          * se o resultado dessa chamada já foi calculado anteriormente, a função simplesmente
          * retorna o valor armazenado (ao invés de recalcular o resultado). Isso é feito
          * normalmente em uma estrutura de dados como um dicionário (hash map) ou uma tabela.
-         *
+         * <p>
          * Reutilização de Resultados:
          * Se o mesmo conjunto de parâmetros for passado para a função mais de uma vez, ao
          * invés de recalcular a resposta, a função recupera o valor diretamente da memória,
          * economizando tempo de execução.
-         *
+         * <p>
          * Aumento de Eficiência:
          * A memoização é particularmente útil em algoritmos recursivos que têm muitos cálculos
          * repetidos, como o cálculo de números de Fibonacci ou problemas combinatórios, onde a
@@ -148,8 +150,43 @@ public class Recursion {
         }
     }
 
+    /**
+     * Recursion with String
+     */
+    public String reverseString(String input) {
+        //what is the base case? One letter or Empty String.
+        if (input.equals("")) {
+            return "";
+        }
+        // what is the smallest amount of work I can do in each iteration?
+        return reverseString(input.substring(1)) + input.charAt(0);
+        //reverseString shrinks the problem space. input.charAt(0) is a smallest unit of work to contribute.
+
+        /*
+         * First invoking the reverse string:
+         *
+         *   a
+         *   n
+         *   a
+         *   n
+         *   a
+         *   b
+         *
+         * Doing Recursion:
+         *
+         * a
+         * an
+         * ana
+         * anan
+         * anana
+         * ananab
+         *
+         * */
+    }
+
     public static void main(String[] args) {
         MemoizationExample example = new MemoizationExample();
+        Recursion stringReverse = new Recursion();
 
         // Declaração da variável para armazenar a entrada do usuário
         int userInput;
@@ -176,6 +213,15 @@ public class Recursion {
         System.out.println(example.C());  // friends
         System.out.println(example.B());  // my friends
         System.out.println(example.A());  // hello my friends
+
+        String userStringInput = JOptionPane.showInputDialog("Digite uma string para inverter");
+        if (userStringInput != null && !userStringInput.trim().isEmpty()) {
+            String reversedString = stringReverse.reverseString(userStringInput);
+            System.out.println("String original: " + userStringInput);
+            System.out.println("String invertida: " + reversedString);
+        } else {
+            System.out.println("Entrada inválida...");
+        }
 
     }
 }
